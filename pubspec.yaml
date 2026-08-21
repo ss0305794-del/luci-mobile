@@ -1,25 +1,20 @@
-on: macos-latest
+name: my_app
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
 
-jobs:
-  build:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+environment:
+  sdk: '^3.13.0'
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.13.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
 
-      - name: Install dependencies
-        run: flutter pub get
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
 
-      - name: Build ios
-        run: flutter build ios --release --no-codesign
-
-      - name: Create Payload and IPA
-        run: |
-          mkdir -p Payload
-          cp -R build/ios/iphoneos/Runner.app Payload/
-          zip -r app.ipa Payload
+flutter:
+  uses-material-design: true
