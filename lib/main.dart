@@ -1,60 +1,26 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:luci_mobile/state/app_state.dart';
-import 'package:luci_mobile/screens/login_screen.dart';
-import 'package:luci_mobile/screens/main_screen.dart';
-import 'package:luci_mobile/screens/settings_screen.dart';
-import 'package:luci_mobile/screens/splash_screen.dart';
+import 'package:luci_mobile/screens/home_screen.dart'; // استبدل المسار حسب شاشاتك
 
 void main() {
-  runApp(ProviderScope(child: const LuCIApp()));
+  runApp(const LuciApp());
 }
 
-final appStateProvider = ChangeNotifierProvider<AppState>(
-  (ref) => AppState.instance,
-);
-
-class LuCIApp extends ConsumerWidget {
-  const LuCIApp({super.key});
+class LuciApp extends StatelessWidget {
+  const LuciApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appState = ref.watch(appStateProvider);
-    return MaterialApp(
-      title: 'LuCI Mobile',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-        // Edge-to-edge display handled natively in MainActivity
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-        ),
+  Widget build(BuildContext context) {
+    return const CupertinoApp(
+      title: 'Luci Mobile',
+      debugShowCheckedModeBanner: false,
+      // ثيم أبل الرسمي (يدعم الوضع الداكن والفاتح تلقائياً)
+      theme: CupertinoThemeData(
+        brightness: Brightness.dark, // أو Light حسب رغبتك
+        primaryColor: CupertinoColors.systemBlue,
+        scaffoldBackgroundColor: CupertinoColors.systemGroupedBackground,
       ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-        // Edge-to-edge display handled natively in MainActivity
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-        ),
-      ),
-      themeMode: appState.themeMode,
-      initialRoute: '/splash',
-      routes: {
-        '/splash': (context) => const SplashScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/': (context) => const MainScreen(),
-        '/settings': (context) => const SettingsScreen(),
-      },
+      home: HomeScreen(), // أول شاشة تعرضها
     );
   }
 }
